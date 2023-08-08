@@ -28,16 +28,16 @@
         <form class="incidence-form">
             <div class="mb-3">
                 <label for="RUT de la comunidad">RUT de la comunidad</label>
-                <input class="form-control" id="inputRUT" disabled>
+                <input class="form-control" id="input-RUT-community" disabled>
             </div>
             <div class="mb-3">
                 <label for="RUT">RUT *</label>
-                <input class="form-control" id="inputRUT""
+                <input class="form-control" id="input-RUT""
                     placeholder=" Introduce el RUT" maxlength="7" minlength="7" required>
             </div>
             <div class="mb-3">
                 <label for="select-tipoIncidencia" class="form-label">Tipo de Incidencia *</label>
-                <select class="form-select" id="tipoIncidencia" name="incidencia" required>
+                <select class="form-select" id="incidence-type" name="incidencia" required>
                     <option value="">Selecciona una opción</option>
                     <option value="Averías en instalaciones comunes">Averías en instalaciones comunes</option>
                     <option value="Limpieza y mantenimiento">Limpieza y mantenimiento</option>
@@ -58,7 +58,7 @@
             </div>
             <div class="mb-3">
                 <label for="observaciones" class="form-label">Observaciones *</label>
-                <textarea class="form-control" id="observaciones" name="observaciones" rows="4"
+                <textarea class="form-control" id="observations" name="observaciones" rows="4"
                     placeholder="Introduce tus observaciones" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
@@ -66,15 +66,24 @@
     </div>
 </body>
 <script>
+    var uri = window.location.href;
+    var index = uri.indexOf('?');
+
+    if (index !== -1 && index < uri.length - 1) {
+
+        var charactersAfterQuestionMark = uri.substring(index + 1);
+        document.getElementById("input-RUT-community").value = charactersAfterQuestionMark;
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
         var form = document.querySelector('.incidence-form');
 
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
-            var rut = document.getElementById('inputRUT').value;
-            var tipoIncidencia = document.getElementById('tipoIncidencia').value;
-            var observaciones = document.getElementById('observaciones').value;
+            var rut = document.getElementById('input-RUT').value;
+            var tipoIncidencia = document.getElementById('incidence-type').value;
+            var observaciones = document.getElementById('observations').value;
 
             var data = {
                 "RUT": rut,
