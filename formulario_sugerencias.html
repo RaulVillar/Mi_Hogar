@@ -48,8 +48,7 @@
             </div>
             <div class="mb-3">
                 <label for="user-RUT">RUT *</label>
-                <input class="form-control" id="input-RUT"
-                    placeholder=" Introduce el RUT" required>
+                <input class="form-control" id="input-RUT" placeholder=" Introduce el RUT" required>
             </div>
             <div class="mb-3">
                 <label for="select-incidence-type" class="form-label">Tipo de Incidencia *</label>
@@ -85,14 +84,17 @@
     </div>
 </body>
 <script>
-    var queryParams = new URLSearchParams(window.location.search);
-    var rutComunidad = queryParams.get('rutComunidad');
-
-    if (rutComunidad) {
-        document.getElementById("input-RUT-community").value = rutComunidad;
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
+        var uri = window.location.href;
+        const urlParams = new URLSearchParams(window.location.search);
+
+        var rutComunidad = urlParams.get("rutComunidad");
+        console.log("Valor de rutComunidad:", rutComunidad); 
+
+        if (rutComunidad !== null) {
+            document.getElementById("input-RUT-community").value = rutComunidad;
+        }
+
         var form = document.querySelector('.incidence-form');
         var successMessage = document.querySelector('.success-message');
         var title = document.querySelector('.form-title');
@@ -100,7 +102,6 @@
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
-            var rutComunidad = document.getElementById('input-RUT-community').value;
             var rut = document.getElementById('input-RUT').value;
             var tipoIncidencia = document.getElementById('incidence-type').value;
             var observaciones = document.getElementById('observations').value;
