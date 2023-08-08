@@ -92,9 +92,9 @@
                 .then(response => {
                     if (!response.ok) {
                         if (response.status === 502) {
-                            throw new Error('Usuario no registrado');
+                            throw new Error('usuario no registrado');
                         } else {
-                            throw new Error('Error en la solicitud');
+                            throw new Error('error en la solicitud');
                         }
                     }
                     return response.json();
