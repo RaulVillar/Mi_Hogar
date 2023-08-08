@@ -21,6 +21,11 @@
         max-width: 30vw;
         align-content: center;
     }
+
+    .success-message {
+        display: none;
+        text-align: center;
+    }
 </style>
 
 <body>
@@ -34,7 +39,7 @@
             <div class="mb-3">
                 <label for="user-RUT">RUT *</label>
                 <input class="form-control" id="input-RUT""
-                    placeholder="Introduce el RUT" maxlength="7" minlength="7" required>
+                    placeholder=" Introduce el RUT" maxlength="7" minlength="7" required>
             </div>
             <div class="mb-3">
                 <label for="select-incidence-type" class="form-label">Tipo de Incidencia *</label>
@@ -64,6 +69,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Enviar</button>
         </form>
+        <div class="success-message">
+            <p>Gracias por enviar el formulario</p>
+        </div>
     </div>
 </body>
 <script>
@@ -114,6 +122,8 @@
                 .then(data => {
                     alert("Datos enviados correctamente");
                     form.reset();
+                    form.style.display = "none";
+                    successMessage.style.display = "block";
                 })
                 .catch(error => {
                     alert("Error al enviar datos: " + error.message);
