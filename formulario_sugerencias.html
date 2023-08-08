@@ -85,13 +85,11 @@
     </div>
 </body>
 <script>
-    var uri = window.location.href;
-    var index = uri.indexOf('?');
+    var queryParams = new URLSearchParams(window.location.search);
+    var rutComunidad = queryParams.get('rutComunidad');
 
-    if (index !== -1 && index < uri.length - 1) {
-
-        var charactersAfterQuestionMark = uri.substring(index + 1);
-        document.getElementById("input-RUT-community").value = charactersAfterQuestionMark;
+    if (rutComunidad) {
+        document.getElementById("input-RUT-community").value = rutComunidad;
     }
 
     document.addEventListener("DOMContentLoaded", function () {
