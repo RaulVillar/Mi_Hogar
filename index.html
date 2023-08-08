@@ -25,6 +25,7 @@
     .success-message {
         display: none;
         text-align: center;
+        font-size: 20px;
     }
 </style>
 
@@ -122,7 +123,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    alert("Datos enviados correctamente");
                     form.reset();
                     form.style.display = "none";
                     title.style.display = "none";
