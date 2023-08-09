@@ -86,61 +86,72 @@
     </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
+    function parseURLParams() {
         const urlParams = new URLSearchParams(window.location.search);
         var rutComunidad = urlParams.get("rutComunidad");
 
         if (rutComunidad !== null) {
             document.getElementById("input-RUT-community").value = rutComunidad;
         }
+    }
 
-        var form = document.querySelector('.incidence-form');
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
+    var form = document.querySelector('.incidence-form');
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-       
-            var successMessage = document.querySelector('.success-message');
-            var title = document.querySelector('.form-title');
-            var rut = document.getElementById('input-RUT').value;
-            var tipoIncidencia = document.getElementById('incidence-type').value;
-            var observaciones = document.getElementById('observations').value;
+        var successMessage = document.querySelector('.success-message');
+        var title = document.querySelector('.form-title');
+        var rut = document.getElementById('input-RUT').value;
+        var tipoIncidencia = document.getElementById('incidence-type').value;
+        var observaciones = document.getElementById('observations').value;
 
-            var data = {
-                "RUT de la Comunidad": rutComunidad,
-                "RUT": rut,
-                "Tipo de incidencia": tipoIncidencia,
-                "Observaciones": observaciones
-            };
+        var data = {
+            "RUT de la Comunidad": rutComunidad,
+            "RUT": rut,
+            "Tipo de incidencia": tipoIncidencia,
+            "Observaciones": observaciones
+        };
 
-            fetch("https://prod-13.brazilsouth.logic.azure.com:443/workflows/ac18d147519148a097bd741e2f306011/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b35rFxiA64jaacLaJ8lYTghFR8yG7IWPCVm99ix5c1I", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        if (response.status === 502) {
-                            throw new Error('usuario no registrado');
-                        } else {
-                            throw new Error('error en la solicitud');
-                        }
+        fetch("https://prod-13.brazilsouth.logic.azure.com:443/workflows/ac18d147519148a097bd741e2f306011/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b35rFxiA64jaacLaJ8lYTghFR8yG7IWPCVm99ix5c1I", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 502) {
+                        throw new Error('usuario no registrado');
+                    } else {
+                        throw new Error('error en la solicitud');
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    form.reset();
-                    form.style.display = "none";
-                    title.style.display = "none";
-                    successMessage.style.display = "block";
-                })
-                .catch(error => {
-                    alert("Error al enviar datos: " + error.message);
-                });
-        });
+                }
+                return response.json();
+            })
+            .then(data => {
+                form.reset();
+                form.style.display = "none";
+                title.style.display = "none";
+                successMessage.style.display = "block";
+            })
+            .catch(error => {
+                alert("Error al enviar datos: " + error.message);
+            });
     });
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            onLoad();
+        },
+        false
+    );
+
+    function onLoad() {
+        parseURLParams();
+    }
 </script>
 
 </html>
