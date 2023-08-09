@@ -90,16 +90,16 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         var rutComunidad = urlParams.get("rutComunidad");
-        console.log("Valor de rutComunidad:", rutComunidad);
 
         if (rutComunidad !== null) {
             document.getElementById("input-RUT-community").value = rutComunidad;
         }
 
+        var form = document.querySelector('.incidence-form');
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
-            var form = document.querySelector('.incidence-form');
+       
             var successMessage = document.querySelector('.success-message');
             var title = document.querySelector('.form-title');
             var rut = document.getElementById('input-RUT').value;
