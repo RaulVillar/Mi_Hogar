@@ -87,23 +87,21 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        var uri = window.location.href;
-        const urlParams = new URLSearchParams(window.location.search);
 
+        const urlParams = new URLSearchParams(window.location.search);
         var rutComunidad = urlParams.get("rutComunidad");
-        console.log("Valor de rutComunidad:", rutComunidad); 
+        console.log("Valor de rutComunidad:", rutComunidad);
 
         if (rutComunidad !== null) {
             document.getElementById("input-RUT-community").value = rutComunidad;
         }
 
-        var form = document.querySelector('.incidence-form');
-        var successMessage = document.querySelector('.success-message');
-        var title = document.querySelector('.form-title');
-
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
+            var form = document.querySelector('.incidence-form');
+            var successMessage = document.querySelector('.success-message');
+            var title = document.querySelector('.form-title');
             var rut = document.getElementById('input-RUT').value;
             var tipoIncidencia = document.getElementById('incidence-type').value;
             var observaciones = document.getElementById('observations').value;
