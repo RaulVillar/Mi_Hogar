@@ -96,56 +96,52 @@
     </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        displayFileName()
+    function displayFileName() {
+        const input = document.getElementById('image-upload');
+        const fileNameDisplay = document.getElementById('file-name-display');
 
-        function displayFileName() {
-            const input = document.getElementById('image-upload');
-            const fileNameDisplay = document.getElementById('file-name-display');
-
-            input.addEventListener('change', function () {
-                if (input.files.length > 0) {
-                    let filenames = "";
-                    for (let i = 0; i < input.files.length; i++) {
-                        filenames += input.files[i].name + "<br>";
-                    }
-                    fileNameDisplay.innerHTML = `Nombres de los archivos:<br>${filenames}`;
-                } else {
-                    fileNameDisplay.innerHTML = '';
+        input.addEventListener('change', function () {
+            if (input.files.length > 0) {
+                let filenames = "";
+                for (let i = 0; i < input.files.length; i++) {
+                    filenames += input.files[i].name + "<br>";
                 }
-            });
-        };
+                fileNameDisplay.innerHTML = `Nombres de los archivos:<br>${filenames}`;
+            } else {
+                fileNameDisplay.innerHTML = '';
+            }
+        });
+    };
 
-        var uri = window.location.href;
+    var rutComunidad;
+    function getParamsFromQuery() {
         const urlParams = new URLSearchParams(window.location.search);
-
-        var rutComunidad = urlParams.get("rutComunidad");
+        rutComunidad = urlParams.get("rutComunidad");
 
         if (rutComunidad !== null) {
             document.getElementById("input-RUT-community").value = rutComunidad;
         }
+    }
 
+    function submitForm() {
         var form = document.querySelector('.incidence-form');
-        var successMessage = document.querySelector('.success-message');
-        var title = document.querySelector('.form-title');
-
         form.addEventListener("submit", function (event) {
             event.preventDefault();
 
+            var successMessage = document.querySelector('.success-message');
+            var title = document.querySelector('.form-title');
             var rut = document.getElementById('input-RUT').value;
             var tipoIncidencia = document.getElementById('incidence-type').value;
             var observaciones = document.getElementById('observations').value;
-            var imageUploaded = document.getElementById('image-upload').value;
 
             var data = {
                 "RUT de la Comunidad": rutComunidad,
                 "RUT": rut,
                 "Tipo de incidencia": tipoIncidencia,
-                "Observaciones": observaciones,
-                "imageUploaded": imágenes
+                "Observaciones": observaciones
             };
-            
+
             fetch("https://prod-13.brazilsouth.logic.azure.com:443/workflows/ac18d147519148a097bd741e2f306011/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b35rFxiA64jaacLaJ8lYTghFR8yG7IWPCVm99ix5c1I", {
                 method: "POST",
                 headers: {
@@ -171,9 +167,22 @@
                 .catch(error => {
                     alert("Error al enviar datos: " + error.message);
                 });
-        });
-    });
+        })
+    };
 
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            onLoad();
+        },
+        false
+    );
+
+    function onLoad() {
+        submitForm();
+        getParamsFromQuery();
+        displayFileName();
+    }
 
 </script>
 
