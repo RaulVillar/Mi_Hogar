@@ -114,13 +114,13 @@
         });
     };
 
-    var rutComunidad;
+    var rutCommunity;
     function getParamsFromQuery() {
         const urlParams = new URLSearchParams(window.location.search);
-        rutComunidad = urlParams.get("rutComunidad");
+        rutCommunity = urlParams.get("rutComunidad");
 
-        if (rutComunidad !== null) {
-            document.getElementById("input-RUT-community").value = rutComunidad;
+        if (rutCommunity !== null) {
+            document.getElementById("input-RUT-community").value = rutCommunity;
         }
     }
 
@@ -132,14 +132,14 @@
             var successMessage = document.querySelector('.success-message');
             var title = document.querySelector('.form-title');
             var rut = document.getElementById('input-RUT').value;
-            var tipoIncidencia = document.getElementById('incidence-type').value;
-            var observaciones = document.getElementById('observations').value;
+            var incidenceType = document.getElementById('incidence-type').value;
+            var observations = document.getElementById('observations').value;
 
-            var data = {
-                "RUT de la Comunidad": rutComunidad,
+            var incidenceData = {
+                "RUT de la Comunidad": rutCommunity,
                 "RUT": rut,
-                "Tipo de incidencia": tipoIncidencia,
-                "Observaciones": observaciones
+                "Tipo de incidencia": incidenceType,
+                "Observaciones": observations
             };
 
             fetch("https://prod-13.brazilsouth.logic.azure.com:443/workflows/ac18d147519148a097bd741e2f306011/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b35rFxiA64jaacLaJ8lYTghFR8yG7IWPCVm99ix5c1I", {
@@ -147,7 +147,10 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify({
+                    Incidencia: incidenceData,
+                    Imagenes: images
+                }),
             })
                 .then(response => {
                     if (!response.ok) {
