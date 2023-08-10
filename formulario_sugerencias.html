@@ -114,6 +114,7 @@
         });
     };
 
+
     var rutCommunity;
     function getParamsFromQuery() {
         const urlParams = new URLSearchParams(window.location.search);
@@ -134,6 +135,15 @@
             var rut = document.getElementById('input-RUT').value;
             var incidenceType = document.getElementById('incidence-type').value;
             var observations = document.getElementById('observations').value;
+            var inputImages = document.getElementById('image-upload');
+
+            var images = [];
+            console.log(images)
+
+            for (var i = 0; i < inputImages.files.length; i++) {
+                var image = inputImages.files[i];
+                images.push(image);
+            }
 
             var incidenceData = {
                 "RUT de la Comunidad": rutCommunity,
@@ -142,15 +152,22 @@
                 "Observaciones": observations
             };
 
+            var formData = new FormData();
+            formData.append('Incidencia', JSON.stringify(incidenceData));
+            for (var j = 0; j < images.length; j++) {
+                formData.append('Imagenes', images[j]);
+            }
+
+            function logFormData(formData) {
+                for (var pair of formData.entries()) {
+                    console.log(pair[0] + ': ' + pair[1]);
+                }
+            }
+            logFormData(formData);
+
             fetch("https://prod-13.brazilsouth.logic.azure.com:443/workflows/ac18d147519148a097bd741e2f306011/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b35rFxiA64jaacLaJ8lYTghFR8yG7IWPCVm99ix5c1I", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    Incidencia: incidenceData,
-                    Imagenes: images
-                }),
+                body: formData,
             })
                 .then(response => {
                     if (!response.ok) {
@@ -187,6 +204,24 @@
         displayFileName();
     }
 
+
+    function fileOnload(proveedor, delegaciones, file, fileType){
+		var reader = new FileReader();
+
+		reader.onerror = function () {
+			console.log("Error");
+			changeSaveButton(false);
+		};
+
+		reader.onload = function () {
+			var filecontent = reader.result;
+
+			proveedor[fileType] = {
+				Name: file.name,
+				Content: filecontent
+			};
+
 </script>
 
 </html>
+
